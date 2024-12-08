@@ -1,42 +1,57 @@
-import Solver.Companion.ALPHABET_ENGLISH
-import Solver.Companion.ALPHABET_ENGLISH_SEQ
-import Solver.Companion.ALPHABET_RUSSIAN
-import Solver.Companion.ALPHABET_RUSSIAN_SEQ
-
 fun main() {
-    print(
+    val solver = Solver()
+    println(
         """
-            SuperDecryptor 1.0
-            ------------------
-            Enter a word to decrypt: 
+            Dncryptor101 
+            Version 1.1
+            ------------------ 
         """.trimIndent()
     )
-    val inp = readln()
-    println("\nPossible variants:")
-    val words = mutableListOf<String>()
-    for (shift in -ALPHABET_RUSSIAN.length until ALPHABET_RUSSIAN.length) {
-        var word = ""
-        for (letter in inp) {
-            var index = ALPHABET_ENGLISH.indexOf(letter)
-            var print: Char
-            if (index == -1) {
-                index = ALPHABET_RUSSIAN.indexOf(letter)
-                print = if (index == -1) {
-                    letter
-                } else {
-                    ALPHABET_RUSSIAN_SEQ[index + shift]
-                }
-            } else {
-                print = ALPHABET_ENGLISH_SEQ[index + shift]
-            }
-            word += print
+    while (true) {
+        print(
+            """
+                Select an option:
+                0. Exit
+                1. Decrypt text
+                2. Encrypt text
+                3. About
+                Type a number: 
+            """.trimIndent()
+        )
+        val choice: Int
+        try {
+            choice = readln().toInt()
+        } catch (_: NumberFormatException) {
+            println("Try again.")
+            continue
         }
-        if (!words.contains(word) && word != inp) {
-            words += word
-        }
-    }
+        when (choice) {
+            0 -> break
+            1 -> {
+                print("Enter a word to decrypt: ")
+                val inp = readln()
+                println("\nPossible variants:")
+                val words = solver.decrypt(inp)
 
-    for (word in words) {
-        println(word)
+                for (word in words) {
+                    println(word)
+                }
+                break
+            }
+            2 -> {
+                println("Not implemented yet.")
+                break
+            }
+            3 -> {
+                println(
+                    """
+                        
+                        A simple program to encrypt and decrypt text.
+                        Version 1.1
+                    """.trimIndent()
+                )
+                break
+            }
+        }
     }
 }
